@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS onpeak_emulator1c_log; 

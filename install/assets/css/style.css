@@ -1,0 +1,108 @@
+.emulator-import-container {
+    margin-bottom: 20px;
+}
+
+.emulator-import-log {
+    width: 100%;
+    font-size: 12px;
+    border: 1px solid #ADC3D5;
+    padding: 5px;
+    margin-bottom: 5px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.emulator-import-timer {
+    margin-top: 5px;
+    color: #666;
+}
+
+.emulator-import-buttons {
+    margin-top: 10px;
+}
+
+.emulator-error {
+    color: #d00;
+}
+
+.emulator-error-details {
+    width: 100%;
+    font-size: 11px;
+    border: 1px solid #d00;
+    background-color: #ffe6e6;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.emulator-success {
+    color: #0b0;
+}
+
+.emulator-warning {
+    color: #f80;
+}
+
+.emulator-stats-container {
+    margin-top: 20px;
+}
+
+.emulator-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.emulator-stats-table th,
+.emulator-stats-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.emulator-stats-table th {
+    background-color: #f5f5f5;
+    text-align: left;
+}
+
+/* Статусы */
+.status-SUCCESS {
+    color: green;
+}
+
+.status-ERROR {
+    color: red;
+}
+
+.status-PROCESS {
+    color: blue;
+}
+
+.status-STOP {
+    color: orange;
+}
+
+#load .emulator-progress {
+    position: relative;
+    width: 200px; /* Ширина прогресс-бара */
+    height: 20px;
+    background-color: #e0e0e0; /* Цвет фона */
+    border-radius: 5px;
+    overflow: hidden;
+    direction: ltr;
+}
+
+#load .emulator-progress-bar {
+    float: left;
+    height: 100%;
+    background-color: #2FC6F6; /* Цвет заполнения */
+    transition: width 0.3s ease; /* Плавное изменение ширины */
+}
+
+#load .emulator-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    color: #000;
+    font-weight: bold;
+}
