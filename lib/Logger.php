@@ -1,5 +1,5 @@
 <?php
-namespace Onpeak\Emulator1c;
+namespace Ps\Emulator1c;
 
 use Bitrix\Main\DB\Connection;
 use Bitrix\Main\Application;
@@ -22,7 +22,7 @@ class Logger
     {
         global $DB;
         
-        return $DB->Add('onpeak_emulator1c_log', [
+        return $DB->Add('ps_emulator1c_log', [
             'DATE_CREATE' => new DateTime(),
             'FILE_NAME' => $fileName,
             'STATUS' => $status,
@@ -42,7 +42,7 @@ class Logger
         
         $result = $DB->Query("
             SELECT *
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             ORDER BY DATE_CREATE DESC
             LIMIT " . $limit
         );
@@ -69,7 +69,7 @@ class Logger
         // Общее количество успешных импортов
         $result = $DB->Query("
             SELECT COUNT(*) as total_imports
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE STATUS = 'SUCCESS'
         ");
         $stats['total_imports'] = $result->Fetch()['total_imports'];
@@ -77,7 +77,7 @@ class Logger
         // Количество успешных импортов за последние 24 часа
         $result = $DB->Query("
             SELECT COUNT(*) as recent_imports
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE STATUS = 'SUCCESS'
             AND DATE_CREATE >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
         ");

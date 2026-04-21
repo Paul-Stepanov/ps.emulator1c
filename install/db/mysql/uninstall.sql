@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS onpeak_emulator1c_log; 
+DROP TABLE IF EXISTS ps_emulator1c_log; 

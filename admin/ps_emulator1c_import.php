@@ -3,14 +3,14 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admi
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Page\Asset;
-use Onpeak\Emulator1c\Importer;
-use Onpeak\Emulator1c\Logger;
+use Ps\Emulator1c\Importer;
+use Ps\Emulator1c\Logger;
 
 if (!$USER->IsAdmin()) {
     $APPLICATION->AuthForm("Доступ запрещен");
 }
 
-if (!CModule::IncludeModule("onpeak.emulator1c")) {
+if (!CModule::IncludeModule("ps.emulator1c")) {
     ShowError("Модуль не установлен");
     require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_admin.php");
     die();
@@ -48,8 +48,8 @@ if(isset($_REQUEST['ajax_action']) && $_REQUEST['ajax_action'] == 'log_status') 
 }
 
 // Подключаем CSS и JS файлы
-$APPLICATION->SetAdditionalCSS('/bitrix/css/onpeak.emulator1c/style.css');
-Asset::getInstance()->addJs('/bitrix/js/onpeak.emulator1c/import.js');
+$APPLICATION->SetAdditionalCSS('/bitrix/css/ps.emulator1c/style.css');
+Asset::getInstance()->addJs('/bitrix/js/ps.emulator1c/import.js');
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 
@@ -97,20 +97,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['import_file']) && ch
                     <div id="timer" class="emulator-import-timer"></div>
                     
                     <div class="emulator-import-buttons">
-                        <input type="button" value="Обнулить шаг" onclick="OnpeakEmulator1C.resetStep()" class="adm-btn" style="color:red;">
-                        <input type="button" value="Остановить импорт" onclick="OnpeakEmulator1C.stopImport()" class="adm-btn" style="color:red;">
+                        <input type="button" value="Обнулить шаг" onclick="PsEmulator1C.resetStep()" class="adm-btn" style="color:red;">
+                        <input type="button" value="Остановить импорт" onclick="PsEmulator1C.stopImport()" class="adm-btn" style="color:red;">
                     </div>
                 </div>
             </div>
             
             <script>
             BX.ready(function(){
-                OnpeakEmulator1C.init({
+                PsEmulator1C.init({
                     logId: 'log',
                     timerId: 'timer',
                     loadId: 'load'
                 });
-                OnpeakEmulator1C.startImport('<?=CUtil::JSEscape($uploadResult['fileName'])?>');
+                PsEmulator1C.startImport('<?=CUtil::JSEscape($uploadResult['fileName'])?>');
             });
             </script>
         </td>

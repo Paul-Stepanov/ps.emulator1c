@@ -7,9 +7,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 use Bitrix\Main\ModuleManager;
 use Bitrix\Main\Config\Option;
 
-class onpeak_emulator1c extends CModule
+class ps_emulator1c extends CModule
 {
-    public $MODULE_ID = "onpeak.emulator1c";
+    public $MODULE_ID = "ps.emulator1c";
     public $MODULE_VERSION;
     public $MODULE_VERSION_DATE;
     public $MODULE_NAME;
@@ -27,8 +27,6 @@ class onpeak_emulator1c extends CModule
 
         $this->MODULE_NAME = "Эмулятор выгрузки 1С";
         $this->MODULE_DESCRIPTION = "Модуль для эмуляции выгрузки файлов из 1С";
-        $this->PARTNER_NAME = "Onpeak";
-        $this->PARTNER_URI = "https://www.onpeak.ru";
     }
 
     public function DoInstall(): bool

@@ -1,5 +1,5 @@
 <?php
-namespace Onpeak\Emulator1c;
+namespace Ps\Emulator1c;
 
 use Bitrix\Main\DB\Connection;
 use Bitrix\Main\Application;
@@ -24,7 +24,7 @@ class Stats
         // Общее количество успешных импортов
         $result = $DB->Query("
             SELECT COUNT(*) as total_imports
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE STATUS = 'SUCCESS'
         ");
         $stats['total_imports'] = $result->Fetch()['total_imports'] ?? 0;
@@ -32,7 +32,7 @@ class Stats
         // Количество успешных импортов за последние 24 часа
         $result = $DB->Query("
             SELECT COUNT(*) as recent_imports
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE STATUS = 'SUCCESS'
             AND DATE_CREATE >= DATE_ADD(NOW(), INTERVAL -24 HOUR)
         ");
@@ -41,7 +41,7 @@ class Stats
         // Общее количество шагов импорта
         $result = $DB->Query("
             SELECT COUNT(*) as total_steps
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE STATUS = 'PROCESS'
         ");
         $stats['total_steps'] = $result->Fetch()['total_steps'] ?? 0;
@@ -57,7 +57,7 @@ class Stats
                     MIN(DATE_CREATE) as start_time,
                     MAX(DATE_CREATE) as end_time,
                     TIMESTAMPDIFF(SECOND, MIN(DATE_CREATE), MAX(DATE_CREATE)) as import_time
-                FROM onpeak_emulator1c_log
+                FROM ps_emulator1c_log
                 WHERE STATUS IN ('START', 'SUCCESS')
                 GROUP BY FILE_NAME
                 HAVING start_time IS NOT NULL AND end_time IS NOT NULL
@@ -96,7 +96,7 @@ class Stats
 
         $result = $DB->Query("
         SELECT * 
-        FROM onpeak_emulator1c_log
+        FROM ps_emulator1c_log
         ORDER BY ID DESC 
         LIMIT " . $limit
         );
@@ -126,7 +126,7 @@ class Stats
                 COUNT(*) as total,
                 SUM(CASE WHEN STATUS = 'SUCCESS' THEN 1 ELSE 0 END) as success,
                 SUM(CASE WHEN STATUS = 'ERROR' THEN 1 ELSE 0 END) as errors
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             WHERE DATE_CREATE >= DATE_SUB(NOW(), INTERVAL " . $days . " DAY)
             GROUP BY DATE(DATE_CREATE)
             ORDER BY import_date DESC
@@ -165,7 +165,7 @@ class Stats
                     MIN(CASE WHEN STATUS = 'START' THEN DATE_CREATE ELSE NULL END), 
                     MAX(CASE WHEN STATUS = 'SUCCESS' THEN DATE_CREATE ELSE NULL END)
                 ) as duration_seconds
-            FROM onpeak_emulator1c_log
+            FROM ps_emulator1c_log
             GROUP BY FILE_NAME
             ORDER BY last_operation DESC
             LIMIT " . $limit

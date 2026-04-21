@@ -1,5 +1,5 @@
 <?php
-namespace Onpeak\Emulator1c;
+namespace Ps\Emulator1c;
 
 use Bitrix\Main\ArgumentOutOfRangeException;
 use Bitrix\Main\Config\Option;

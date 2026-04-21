@@ -5,7 +5,7 @@ use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\HttpApplication;
 use Bitrix\Main\Config\Option;
 
-$module_id = 'onpeak.emulator1c';
+$module_id = 'ps.emulator1c';
 
 $request = HttpApplication::getInstance()->getContext()->getRequest();
 

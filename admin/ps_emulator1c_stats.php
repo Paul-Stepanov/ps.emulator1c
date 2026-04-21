@@ -4,13 +4,13 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_ad
 
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Page\Asset;
-use Onpeak\Emulator1c\Stats;
+use Ps\Emulator1c\Stats;
 
 if (!$USER->IsAdmin()) {
     $APPLICATION->AuthForm("Доступ запрещен");
 }
 
-if (!CModule::IncludeModule("onpeak.emulator1c")) {
+if (!CModule::IncludeModule("ps.emulator1c")) {
     ShowError("Модуль не установлен");
     require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_admin.php");
     die();
@@ -19,7 +19,7 @@ if (!CModule::IncludeModule("onpeak.emulator1c")) {
 $APPLICATION->SetTitle("Статистика импорта 1С");
 
 // Подключаем CSS
-Asset::getInstance()->addCss('/bitrix/js/onpeak.emulator1c/style.css');
+Asset::getInstance()->addCss('/bitrix/js/ps.emulator1c/style.css');
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin_after.php");
 
