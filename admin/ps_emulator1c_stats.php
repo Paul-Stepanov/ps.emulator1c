@@ -2,8 +2,6 @@
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin_before.php");
 
-use Bitrix\Main\Localization\Loc;
-use Bitrix\Main\Page\Asset;
 use Ps\Emulator1c\Stats;
 
 if (!$USER->IsAdmin()) {
@@ -18,180 +16,88 @@ if (!CModule::IncludeModule("ps.emulator1c")) {
 
 $APPLICATION->SetTitle("Статистика импорта 1С");
 
-// Подключаем CSS
-Asset::getInstance()->addCss('/bitrix/js/ps.emulator1c/style.css');
+$APPLICATION->SetAdditionalCSS('/bitrix/css/ps.emulator1c/style.css?v=1.2.5');
 
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin_after.php");
 
-// Обработка возможных ошибок
 try {
-    // Получаем статистику
     $generalStats = Stats::getGeneralStats();
     $latestImports = Stats::getLatestImports(15);
     $fileStats = Stats::getFileStats(10);
-
     $hasError = false;
 } catch (\Exception $e) {
     ShowError("Ошибка при получении статистики: " . $e->getMessage());
     $hasError = true;
 }
 
-$aTabs = [
-    [
-        "DIV" => "edit1",
-        "TAB" => "Общая статистика",
-        "ICON" => "main_user_edit",
-        "TITLE" => "Общая статистика импорта",
-    ],
-    [
-        "DIV" => "edit2",
-        "TAB" => "Последние импорты",
-        "ICON" => "main_user_edit",
-        "TITLE" => "Последние импорты",
-    ],
-    [
-        "DIV" => "edit3",
-        "TAB" => "Статистика по файлам",
-        "ICON" => "main_user_edit",
-        "TITLE" => "Статистика по файлам",
-    ],
-];
+$avgMinutes = (int)floor($generalStats['avg_import_time'] / 60);
+$avgSeconds = (int)($generalStats['avg_import_time'] % 60);
 
-$tabControl = new CAdminTabControl("tabControl", $aTabs);
-$tabControl->Begin();
+function emuStatusBadge(string $status): string
+{
+    $class = preg_replace('/[^a-z]/', '', strtolower($status));
 
-if (!$hasError) {
-    ?>
-
-    <?php
-    $tabControl->BeginNextTab(); ?>
-    <tr>
-        <td width="40%">Всего успешных импортов:</td>
-        <td width="60%"><?php
-            echo $generalStats['total_imports']; ?></td>
-    </tr>
-    <tr>
-        <td>Импортов за последние 24 часа:</td>
-        <td><?php
-            echo $generalStats['recent_imports']; ?></td>
-    </tr>
-    <tr>
-        <td>Среднее время импорта:</td>
-        <td>
-            <?php
-            $seconds = $generalStats['avg_import_time'];
-            $minutes = floor($seconds / 60);
-            $seconds = $seconds % 60;
-            echo "{$minutes} мин. {$seconds} сек.";
-            ?>
-        </td>
-    </tr>
-    <tr>
-        <td>Всего шагов импорта выполнено:</td>
-        <td><?php
-            echo $generalStats['total_steps']; ?></td>
-    </tr>
-
-    <?php
-    $tabControl->BeginNextTab(); ?>
-    <tr>
-        <td colspan="2">
-            <table class="adm-list-table emulator-stats-table" width="100%">
-                <thead>
-                <tr class="adm-list-table-header">
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Дата</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Файл</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Статус</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Сообщение</div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($latestImports as $import): ?>
-                    <tr class="adm-list-table-row">
-                        <td class="adm-list-table-cell"><?php
-                            echo $import['DATE_CREATE']; ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo htmlspecialchars($import['FILE_NAME']); ?></td>
-                        <td class="adm-list-table-cell">
-                            <span class="status-<?php
-                            echo $import['STATUS']; ?>"><?php
-                                echo $import['STATUS']; ?></span>
-                        </td>
-                        <td class="adm-list-table-cell"><?php
-                            echo htmlspecialchars($import['MESSAGE']); ?></td>
-                    </tr>
-                <?php
-                endforeach; ?>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-
-    <?php
-    $tabControl->BeginNextTab(); ?>
-    <tr>
-        <td colspan="2">
-            <table class="adm-list-table emulator-stats-table" width="100%">
-                <thead>
-                <tr class="adm-list-table-header">
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Файл</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Этапов импорта</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Успешных импортов</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Ошибок</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Длительность</div>
-                    </td>
-                    <td class="adm-list-table-cell">
-                        <div class="adm-list-table-cell-inner">Последняя операция</div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($fileStats as $file): ?>
-                    <tr class="adm-list-table-row">
-                        <td class="adm-list-table-cell"><?php
-                            echo htmlspecialchars($file['FILE_NAME']); ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo $file['steps_count']; ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo $file['success']; ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo $file['errors']; ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo $file['duration']; ?></td>
-                        <td class="adm-list-table-cell"><?php
-                            echo $file['last_operation']; ?></td>
-                    </tr>
-                <?php
-                endforeach; ?>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-
-    <?php
+    return '<span class="emu-badge-l emu-badge-l--' . $class . '">' . htmlspecialchars($status) . '</span>';
 }
+?>
 
-$tabControl->Buttons();
-$tabControl->End();
+<?php if (!$hasError): ?>
+<div class="emu-page">
+    <div class="emu-kpis">
+        <div class="emu-kpi"><b><?php echo (int)$generalStats['total_imports']; ?></b><span>успешных импортов</span></div>
+        <div class="emu-kpi"><b><?php echo (int)$generalStats['recent_imports']; ?></b><span>за последние 24 часа</span></div>
+        <div class="emu-kpi"><b><?php echo $avgMinutes; ?> мин. <?php echo $avgSeconds; ?> сек.</b><span>среднее время импорта</span></div>
+        <div class="emu-kpi"><b><?php echo (int)$generalStats['total_steps']; ?></b><span>шагов импорта выполнено</span></div>
+    </div>
 
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_admin.php");
-?> 
+    <div class="emu-section-h">Последние импорты</div>
+    <table class="emu-table">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Файл</th>
+            <th>Статус</th>
+            <th>Сообщение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($latestImports as $import): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($import['DATE_CREATE']); ?></td>
+                <td><?php echo htmlspecialchars($import['FILE_NAME']); ?></td>
+                <td><?php echo emuStatusBadge($import['STATUS']); ?></td>
+                <td><?php echo htmlspecialchars($import['MESSAGE']); ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <div class="emu-section-h">Статистика по файлам</div>
+    <table class="emu-table">
+        <thead>
+        <tr>
+            <th>Файл</th>
+            <th>Этапов импорта</th>
+            <th>Успешных импортов</th>
+            <th>Ошибок</th>
+            <th>Длительность</th>
+            <th>Последняя операция</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($fileStats as $file): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($file['FILE_NAME']); ?></td>
+                <td><?php echo (int)$file['steps_count']; ?></td>
+                <td><?php echo (int)$file['success']; ?></td>
+                <td><?php echo (int)$file['errors']; ?></td>
+                <td><?php echo htmlspecialchars($file['duration']); ?></td>
+                <td><?php echo htmlspecialchars($file['last_operation']); ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<?php endif; ?>
+
+<?php require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_admin.php");

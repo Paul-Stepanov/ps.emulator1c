@@ -27,6 +27,8 @@ class ps_emulator1c extends CModule
 
         $this->MODULE_NAME = "Эмулятор выгрузки 1С";
         $this->MODULE_DESCRIPTION = "Модуль для эмуляции выгрузки файлов из 1С";
+        $this->PARTNER_NAME = "Paul-Stepanov";
+        $this->PARTNER_URI = "https://github.com/Paul-Stepanov/ps.emulator1c";
     }
 
     public function DoInstall(): bool
@@ -169,7 +171,7 @@ class ps_emulator1c extends CModule
         }
 
         if (file_exists($assetsCssDir)) {
-            DeleteDirFilesEx('/bitrix/js/' . $this->MODULE_ID);
+            DeleteDirFilesEx('/bitrix/css/' . $this->MODULE_ID);
         }
         
         return true;

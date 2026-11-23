@@ -1,108 +1,514 @@
-.emulator-import-container {
-    margin-bottom: 20px;
+/**
+ * Эмулятор обмена с 1С: холодная серо-зелёная гамма, явная иерархия полос;
+ * кнопки — <button>, пробивающие каскад админки
+ */
+
+.emu-page {
+    font-size: 13px;
+    color: #26302a;
 }
 
-.emulator-import-log {
-    width: 100%;
+.emu-intro {
+    background: #e9f0e6;
+    border: 1px solid #cbdcc8;
+    border-radius: 6px;
+    padding: 10px 14px;
     font-size: 12px;
-    border: 1px solid #ADC3D5;
-    padding: 5px;
-    margin-bottom: 5px;
-    max-height: 500px;
+    color: #4a584c;
+    line-height: 1.55;
+    margin-bottom: 12px;
+}
+
+.emu-intro a {
+    color: #33704a;
+}
+
+.emu-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.emu-controls input[type="file"] {
+    font-size: 12px !important;
+    color: #4a584c !important;
+    background: #fff !important;
+    border: 1px solid #b4c4b2 !important;
+    border-radius: 6px !important;
+    padding: 5px 12px !important;
+}
+
+.emu-controls input[type="file"]::file-selector-button {
+    border: none !important;
+    background: #dfead9 !important;
+    color: #33503c !important;
+    border-radius: 4px !important;
+    padding: 7px 14px !important;
+    margin-right: 12px !important;
+    font-family: Verdana, Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+}
+
+.emu-controls input[type="file"]::file-selector-button:hover {
+    background: #d0e2cb !important;
+}
+
+.emu-controls input[type="file"]:hover {
+    border-color: #93aa90 !important;
+}
+
+.emu-page .emu-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-block !important;
+    padding: 8px 22px !important;
+    border-radius: 6px !important;
+    font-family: Verdana, Arial, sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transition: background-color .15s ease, border-color .15s ease;
+}
+
+.emu-page .emu-btn:focus-visible {
+    outline: 2px solid #3f7d57 !important;
+    outline-offset: 2px;
+}
+
+.emu-page button.emu-btn--primary {
+    background: #3f7d57 !important;
+    background-image: none !important;
+    border: 1px solid #33704a !important;
+    color: #f2f7f1 !important;
+}
+
+.emu-page button.emu-btn--primary:hover {
+    background: #33704a !important;
+    border-color: #2b5d3d !important;
+}
+
+.emu-page button.emu-btn--primary:active {
+    background: #265234 !important;
+}
+
+.emu-page button.emu-btn--danger {
+    background: #fff !important;
+    background-image: none !important;
+    border: 1px solid #dca795 !important;
+    color: #a8402e !important;
+}
+
+.emu-page button.emu-btn--danger:hover {
+    background: #f5e2dc !important;
+    border-color: #cd8d78 !important;
+}
+
+.emu-page .emu-btn:disabled {
+    opacity: .5 !important;
+    cursor: default !important;
+}
+
+.emu-page button.emu-btn--primary:disabled:hover {
+    background: #3f7d57 !important;
+    border-color: #33704a !important;
+}
+
+.emu-page button.emu-btn--danger:disabled:hover {
+    background: #fff !important;
+    border-color: #dca795 !important;
+}
+
+.emu-console {
+    background: #fff;
+    border: 1px solid #a9bda9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.emu-console-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #dce7da;
+    border-bottom: 1px solid #c2d2c1;
+}
+
+.emu-console-title {
+    font-size: 12px;
+    color: #1f2b22;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.emu-state {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 9px;
+    flex: 0 0 auto;
+}
+
+.emu-state--idle {
+    background: #e8ede8;
+    color: #5f6d61;
+    border: 1px solid #c2d2c1;
+}
+
+.emu-state--run {
+    background: #ddebe6;
+    color: #2c6b58;
+    border: 1px solid #a3c4b7;
+}
+
+.emu-state--done {
+    background: #dceee0;
+    color: #22663b;
+    border: 1px solid #9cc7a4;
+}
+
+.emu-state--error {
+    background: #f5e2dc;
+    color: #a8402e;
+    border: 1px solid #dfa995;
+}
+
+.emu-state--stop {
+    background: #efecd2;
+    color: #6f6a28;
+    border: 1px solid #cdc79b;
+}
+
+.emu-console-meta {
+    margin-left: auto;
+    font-size: 11px;
+    color: #54604f;
+    text-align: right;
+}
+
+.emu-console-meta b {
+    color: #1f2b22;
+    font-weight: 600;
+}
+
+.emu-steps {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 10px 14px;
+    border-bottom: 1px solid #d3dfd0;
+    background: #e6eee3;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 10.5px;
+}
+
+.emu-step {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #7b877b;
+}
+
+.emu-step--done {
+    color: #22663b;
+}
+
+.emu-step--current {
+    color: #1f2b22;
+    font-weight: 600;
+}
+
+.emu-step--error {
+    color: #a8402e;
+    font-weight: 600;
+}
+
+.emu-step-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid #a9bda9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    flex: 0 0 auto;
+}
+
+.emu-step--done .emu-step-dot {
+    background: #dceee0;
+    border-color: #8fbf9c;
+}
+
+.emu-step--current .emu-step-dot {
+    border-color: #3f7d57;
+    color: #33704a;
+}
+
+.emu-step--error .emu-step-dot {
+    background: #f5e2dc;
+    border-color: #d8987f;
+}
+
+.emu-step-pct {
+    color: #33704a;
+    font-weight: 400;
+}
+
+.emu-step--error .emu-step-pct {
+    color: #a8402e;
+}
+
+.emu-arrow {
+    color: #b9c9b8;
+    margin: 0 2px;
+}
+
+.emu-console-body {
+    padding: 8px 0 6px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #2b362e;
+    font-family: ui-monospace, "JetBrains Mono", "Cascadia Code", Consolas, Menlo, monospace;
+    max-height: 420px;
     overflow-y: auto;
 }
 
-.emulator-import-timer {
-    margin-top: 5px;
-    color: #666;
+.emu-empty {
+    padding: 10px 14px;
+    color: #6e7d71;
 }
 
-.emulator-import-buttons {
-    margin-top: 10px;
+.emu-line {
+    display: flex;
+    gap: 10px;
+    padding: 2px 14px;
+    align-items: baseline;
 }
 
-.emulator-error {
-    color: #d00;
+.emu-line:nth-child(even) {
+    background: #f4f8f2;
 }
 
-.emulator-error-details {
-    width: 100%;
+.emu-time {
+    color: #6e7d71;
     font-size: 11px;
-    border: 1px solid #d00;
-    background-color: #ffe6e6;
-    padding: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    flex: 0 0 58px;
+    white-space: nowrap;
 }
 
-.emulator-success {
-    color: #0b0;
+.emu-badge {
+    font-size: 9px;
+    letter-spacing: .5px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    flex: 0 0 auto;
+    font-family: Verdana, Arial, sans-serif;
+    font-weight: 600;
 }
 
-.emulator-warning {
-    color: #f80;
+.emu-badge--success {
+    background: #dceee0;
+    color: #22663b;
+    border: 1px solid #9cc7a4;
 }
 
-.emulator-stats-container {
-    margin-top: 20px;
+.emu-badge--process {
+    background: #ddebe6;
+    color: #2c6b58;
+    border: 1px solid #a3c4b7;
 }
 
-.emulator-stats-table {
-    width: 100%;
-    border-collapse: collapse;
+.emu-badge--warning {
+    background: #efecd2;
+    color: #6f6a28;
+    border: 1px solid #cdc79b;
 }
 
-.emulator-stats-table th,
-.emulator-stats-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
+.emu-badge--error {
+    background: #f5e2dc;
+    color: #a8402e;
+    border: 1px solid #dfa995;
 }
 
-.emulator-stats-table th {
-    background-color: #f5f5f5;
-    text-align: left;
+.emu-msg {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
-/* Статусы */
-.status-SUCCESS {
-    color: green;
+.emu-line--error .emu-msg {
+    color: #a8402e;
+    font-weight: 600;
 }
 
-.status-ERROR {
-    color: red;
+.emu-dur {
+    color: #6e7d71;
+    font-size: 11px;
+    flex: 0 0 auto;
+    margin-left: auto;
+    white-space: nowrap;
 }
 
-.status-PROCESS {
-    color: blue;
+.emu-download {
+    display: flex;
+    gap: 10px;
+    padding: 6px 14px;
+    align-items: center;
 }
 
-.status-STOP {
-    color: orange;
-}
-
-#load .emulator-progress {
-    position: relative;
-    width: 200px; /* Ширина прогресс-бара */
-    height: 20px;
-    background-color: #e0e0e0; /* Цвет фона */
+.emu-dl-chip {
+    display: inline-block;
+    background: #dceee0;
+    border: 1px solid #8fbf9c;
+    color: #2b5d3d;
     border-radius: 5px;
-    overflow: hidden;
-    direction: ltr;
+    padding: 3px 12px;
+    font-size: 11px;
 }
 
-#load .emulator-progress-bar {
+.emu-dl-chip:hover {
+    background: #c9e4cf;
+    color: #1f4a2e;
+}
+
+.emu-console-foot {
+    padding: 10px 14px 12px;
+    background: #dce7da;
+    border-top: 1px solid #c2d2c1;
+}
+
+.emu-progress-track {
+    height: 14px;
+    background: #cbdcc9;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.emu-progress-bar {
     float: left;
     height: 100%;
-    background-color: #2FC6F6; /* Цвет заполнения */
-    transition: width 0.3s ease; /* Плавное изменение ширины */
+    width: 0;
+    background: #3f7d57;
+    border-radius: 0 7px 7px 0;
+    transition: width .3s ease;
 }
 
-#load .emulator-progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.emu-progress-bar--done {
+    background: #2f6b45;
+}
+
+.emu-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #4a584c;
+    font-size: 11px;
+    margin-top: 6px;
+    overflow-wrap: anywhere;
+}
+
+/* Статистика */
+
+.emu-kpis {
+    display: flex;
+    border: 1px solid #b9c9b8;
+    border-radius: 6px;
+    background: #f8faf7;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.emu-kpi {
+    flex: 1 1 150px;
+    padding: 12px 18px;
+    border-left: 1px solid #cbdcc9;
+}
+
+.emu-kpi:first-child {
+    border-left: none;
+}
+
+.emu-kpi b {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #26302a;
+    font-family: Verdana, Arial, sans-serif;
+}
+
+.emu-kpi span {
+    font-size: 11px;
+    color: #54604f;
+}
+
+.emu-section-h {
     font-size: 12px;
-    color: #000;
-    font-weight: bold;
+    color: #4a584c;
+    margin: 18px 0 8px;
+    font-weight: 600;
+}
+
+.emu-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    color: #2b362e;
+}
+
+.emu-table th {
+    text-align: left;
+    background: #dce7da;
+    color: #33453a;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-bottom: 1px solid #a9bda9;
+}
+
+.emu-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #dfe8dc;
+    vertical-align: top;
+}
+
+.emu-badge-l {
+    font-size: 9px;
+    letter-spacing: .5px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-family: Verdana, Arial, sans-serif;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.emu-badge-l--success {
+    background: #dceee0;
+    color: #22663b;
+    border: 1px solid #9cc7a4;
+}
+
+.emu-badge-l--error {
+    background: #f5e2dc;
+    color: #a8402e;
+    border: 1px solid #dfa995;
+}
+
+.emu-badge-l--warning,
+.emu-badge-l--stop {
+    background: #efecd2;
+    color: #6f6a28;
+    border: 1px solid #cdc79b;
+}
+
+.emu-badge-l--process {
+    background: #ddebe6;
+    color: #2c6b58;
+    border: 1px solid #a3c4b7;
 }

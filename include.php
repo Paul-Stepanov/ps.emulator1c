@@ -1,6 +1,5 @@
 <?php
 
-use Ps\Emulator1c\Importer;
 use Ps\Emulator1c\Stats;
 use Ps\Emulator1c\Logger;
 
@@ -11,7 +10,6 @@ use Bitrix\Main\Loader;
 Loader::registerAutoLoadClasses(
     'ps.emulator1c',
     [
-        Importer::class => 'lib/Importer.php',
         Stats::class => 'lib/Stats.php',
         Logger::class => 'lib/Logger.php',
     ]
